@@ -1,12 +1,15 @@
 <template>
-  <div class="app-container" :class="{ 'night-mode': isNightMode }">
+  <div class="app-container" :class="{ 'night-mode': isNightMode, 'sidebar-expanded': !sidebarCollapsed }">
     <AppHeader />
 
-    <main class="main-content">
-      <router-view />
-    </main>
+    <div class="app-layout">
+      <AppSidebar @toggle="sidebarCollapsed = !sidebarCollapsed" />
 
-    <!-- Footer -->
+      <main class="main-content" :class="{ 'sidebar-collapsed': sidebarCollapsed }">
+        <router-view />
+      </main>
+    </div>
+
     <footer class="app-footer">
       <div class="footer-content">
         <span>© 2026 MuHanTube — Powered by DADA AI Video Universe</span>
@@ -22,21 +25,29 @@
 <script setup>
 import { ref, provide } from 'vue'
 import AppHeader from '@/components/layout/AppHeader.vue'
+import AppSidebar from '@/components/layout/AppSidebar.vue'
 
 const isNightMode = ref(true)
+const sidebarCollapsed = ref(false)
 provide('isNightMode', isNightMode)
 provide('toggleNightMode', () => { isNightMode.value = !isNightMode.value })
 </script>
 
 <style>
-/* Global DTube Styles */
+/* Global MuhanTube Styles */
 :root {
-  --dtube-bg: #0f0f23;
-  --dtube-card: #1a1a2e;
-  --dtube-accent: #e94560;
-  --dtube-text: #eaeaea;
-  --dtube-muted: #aaa;
-  --dtube-border: #16213e;
+  --bg-primary: #0f0f23;
+  --bg-card: #1a1a2e;
+  --bg-sidebar: #15152a;
+  --accent: #f97316;
+  --accent-hover: #ea580c;
+  --text-primary: #eaeaea;
+  --text-muted: #888;
+  --text-dim: #555;
+  --border: #16213e;
+  --sidebar-width: 200px;
+  --sidebar-collapsed-width: 60px;
+  --header-height: 60px;
 }
 
 * {
@@ -46,8 +57,8 @@ provide('toggleNightMode', () => { isNightMode.value = !isNightMode.value })
 }
 
 body {
-  background: var(--dtube-bg);
-  color: var(--dtube-text);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
 }
@@ -57,7 +68,7 @@ body {
 }
 
 a {
-  color: #e94560;
+  color: var(--accent);
   text-decoration: none;
 }
 
@@ -67,27 +78,31 @@ a:hover {
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f0f23;
+  background: var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
   background: #333;
-  border-radius: 4px;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 /* Semantic UI overrides for dark theme */
 .ui.segment {
-  background: var(--dtube-card) !important;
-  border-color: var(--dtube-border) !important;
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
 }
 
 .ui.label {
   background: #16213e !important;
-  color: var(--dtube-text) !important;
+  color: var(--text-primary) !important;
 }
 </style>
 
@@ -98,17 +113,34 @@ a:hover {
   flex-direction: column;
 }
 
+.app-layout {
+  display: flex;
+  min-height: calc(100vh - var(--header-height));
+  margin-top: var(--header-height);
+}
+
 .main-content {
   flex: 1;
-  margin-top: 60px;
+  margin-left: 200px;
   padding-bottom: 2rem;
+  transition: margin-left 0.25s ease;
+}
+
+.main-content.sidebar-collapsed {
+  margin-left: 60px;
 }
 
 .app-footer {
-  background: #1a1a2e;
-  border-top: 1px solid #16213e;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
   padding: 1rem;
   text-align: center;
+  margin-left: 200px;
+  transition: margin-left 0.25s ease;
+}
+
+.sidebar-expanded .app-footer {
+  margin-left: 200px;
 }
 
 .footer-content {
@@ -117,7 +149,7 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #666;
+  color: var(--text-dim);
   font-size: 0.8rem;
 }
 
@@ -127,10 +159,10 @@ a:hover {
 }
 
 .footer-links a {
-  color: #666;
+  color: var(--text-dim);
 }
 
 .footer-links a:hover {
-  color: #e94560;
+  color: var(--accent);
 }
 </style>
