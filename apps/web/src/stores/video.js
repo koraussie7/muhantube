@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { avalonFetch } from '@/lib/avalon'
+import { avalonFetch } from '@muhantube/core/avalon'
 
 export const useVideoStore = defineStore('video', () => {
   const currentVideo = ref(null)

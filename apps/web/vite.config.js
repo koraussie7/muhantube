@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
+      '@muhantube/core': resolve(__dirname, '../../packages/core/src'),
     },
   },
   server: {

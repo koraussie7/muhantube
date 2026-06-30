@@ -48,6 +48,12 @@ importers:
         specifier: ^5.0.0
         version: 5.4.21
 
+  packages/core:
+    dependencies:
+      axios:
+        specifier: ^1.6.0
+        version: 1.18.1
+
   packages/player:
     dependencies:
       vidstack:

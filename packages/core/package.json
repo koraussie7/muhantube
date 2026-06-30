@@ -1,0 +1,17 @@
+{
+  "name": "@muhantube/core",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./minima": "./src/minima.js",
+    "./avalon": "./src/avalon.js",
+    "./providers": "./src/providers.js",
+    "./rewards": "./src/rewards.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}

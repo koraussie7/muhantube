@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { initMinimaWasm } from '@muhantube/core/minima'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null)
@@ -9,7 +10,6 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function loginWithMinima() {
     try {
-      const { initMinimaWasm } = await import('@/lib/minima')
       const minima = await initMinimaWasm()
       const address = minima.getAddress()
       minimaAddress.value = address

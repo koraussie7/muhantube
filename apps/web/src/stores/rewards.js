@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { calculateReward, recordView, recordLike } from '@/lib/rewards'
+import { calculateReward, recordView, recordLike, claimReward } from '@muhantube/core/rewards'
 
 export const useRewardsStore = defineStore('rewards', () => {
   const balance = ref(0)
@@ -24,7 +24,6 @@ export const useRewardsStore = defineStore('rewards', () => {
   }
 
   async function claim(videoId, author, amount) {
-    const { claimReward } = await import('@/lib/rewards')
     const result = await claimReward(videoId, author, amount)
     if (!result.error) {
       totalEarned.value += amount
